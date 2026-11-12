@@ -1,0 +1,24 @@
+{
+	"$schema": "https://playground.wordpress.net/blueprint-schema.json",
+	"landingPage": "/",
+	"login": true,
+	"features": { "networking": true },
+	"steps": [
+		{
+			"step": "setSiteOptions",
+			"options": {
+				"blogname": "Respray Photos",
+				"blogdescription": "",
+				"permalink_structure": "/%postname%/"
+			}
+		},
+		{
+			"step": "activatePlugin",
+			"pluginPath": "/wordpress/wp-content/plugins/respray-portfolio/respray-portfolio.php"
+		},
+		{
+			"step": "activateTheme",
+			"themeFolderName": "respray-photos"
+		}
+	]
+}

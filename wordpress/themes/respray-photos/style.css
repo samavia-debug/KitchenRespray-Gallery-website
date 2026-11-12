@@ -1,0 +1,10 @@
+/*
+Theme Name: Respray Photos
+Description: Lightweight portfolio theme for resprayphotos.com. Needs the Respray Portfolio plugin.
+Version: 0.1.0
+Requires at least: 6.4
+Requires PHP: 7.4
+Text Domain: respray-photos
+*/
+
+/* Styles live in assets/css/main.css so they can be cached and minified. */

@@ -1,0 +1,18 @@
+.rp-editor-hint { margin: 14px 0 4px; color: #50575e; }
+.rp-photo-groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 12px; }
+@media (max-width: 1100px) { .rp-photo-groups { grid-template-columns: 1fr; } }
+.rp-photos { border: 1px solid #dcdcde; border-radius: 4px; padding: 12px; background: #f9f9f9; }
+.rp-photos h4 { margin: 0 0 4px; font-size: 14px; }
+.rp-photo-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 92px; margin: 10px 0; padding: 8px; background: #fff; border: 1px dashed #c3c4c7; border-radius: 4px; }
+.rp-photo-list li { position: relative; width: 84px; height: 84px; margin: 0; cursor: move; }
+.rp-photo-list li img { width: 84px; height: 84px; object-fit: cover; border-radius: 3px; display: block; }
+.rp-photo-list .rp-placeholder { width: 84px; height: 84px; border: 2px dashed #2271b1; border-radius: 3px; box-sizing: border-box; }
+.rp-remove { position: absolute; top: -6px; right: -6px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: #b32d2e; color: #fff; font-size: 15px; line-height: 20px; cursor: pointer; padding: 0; }
+.rp-details th { width: 160px; }
+.rp-checklist { max-height: 180px; overflow: auto; padding: 6px 8px; border: 1px solid #dcdcde; background: #fff; }
+.column-rp_photo { width: 70px; }
+.column-rp_photo img { border-radius: 3px; object-fit: cover; }
+.column-rp_featured { width: 70px; text-align: center; color: #b8860b; font-size: 16px; }
+.rp-filter-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.rp-filter-grid fieldset { border: 1px solid #dcdcde; padding: 8px 10px; background: #fff; }
+.rp-filter-grid legend { font-weight: 600; padding: 0 4px; }
