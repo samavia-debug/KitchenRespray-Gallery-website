@@ -178,7 +178,7 @@ function rp_search_vocabulary() {
 	$vocabulary = array();
 	$exists     = array();
 	foreach ( rp_filter_map() as $name => $taxonomy ) {
-		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false ) );
+		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => true ) );
 		if ( is_wp_error( $terms ) ) {
 			continue;
 		}

@@ -6,7 +6,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RPT_VERSION', '0.1.0' );
+define( 'RPT_VERSION', '0.2.0' );
 
 add_action(
 	'after_setup_theme',
@@ -33,6 +33,18 @@ add_action(
 );
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
+/**
+ * The homepage always uses this theme's front-page.php, even when the page
+ * set as the front page was built in a page builder with its own template.
+ */
+add_filter(
+	'template_include',
+	function ( $template ) {
+		return is_front_page() ? get_template_directory() . '/front-page.php' : $template;
+	},
+	9999
+);
 
 /** True when the Respray Portfolio plugin is active. */
 function rpt_ready() {

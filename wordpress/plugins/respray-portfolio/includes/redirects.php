@@ -78,13 +78,18 @@ function rp_redirect_target( $path ) {
 add_action(
 	'template_redirect',
 	function () {
-		if ( ! is_404() ) {
-			return;
-		}
 		$path   = (string) wp_parse_url( isset( $_SERVER['REQUEST_URI'] ) ? wp_unslash( $_SERVER['REQUEST_URI'] ) : '', PHP_URL_PATH );
 		$home   = (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH );
 		if ( $home && 0 === strpos( $path, $home ) ) {
 			$path = substr( $path, strlen( $home ) );
+		}
+		// When the new site runs on the old install, the old collection pages
+		// still exist as WordPress pages and the old category addresses can
+		// still be answered by leftover address rules, so these known old
+		// addresses are redirected even when they are not "not found".
+		$old_address = preg_match( '~^(collections|colourtrend|projects|[a-z0-9-]+-collection|(colour|finish|style|room|brand|material|size|project-type)/[a-z0-9-]+)$~', trim( strtolower( $path ), '/' ) );
+		if ( ! is_404() && ! $old_address ) {
+			return;
 		}
 		$target = rp_redirect_target( $path );
 		if ( $target ) {

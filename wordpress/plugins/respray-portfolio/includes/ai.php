@@ -271,7 +271,7 @@ function rp_ai_vocabulary( $only = null ) {
 		if ( $only && ! in_array( $name, $only, true ) ) {
 			continue;
 		}
-		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => false ) );
+		$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => true ) );
 		if ( is_wp_error( $terms ) ) {
 			continue;
 		}

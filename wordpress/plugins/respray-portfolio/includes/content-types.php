@@ -255,7 +255,9 @@ function rp_register_content_types() {
 	add_image_size( 'rp-card-2x', 1440, 1080, true );
 	add_image_size( 'rp-wide', 1600, 0 );
 }
-add_action( 'init', 'rp_register_content_types' );
+// Priority 99: if an older tool (e.g. JetEngine on the previous site) still registers
+// the same "projects" type and categories, this registration is the one that counts.
+add_action( 'init', 'rp_register_content_types', 99 );
 
 /** Plain editor for every portfolio content type: one simple screen for staff. */
 add_filter(
