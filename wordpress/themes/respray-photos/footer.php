@@ -29,7 +29,7 @@
 		</nav>
 	</div>
 	<div class="rpt-wrap rpt-footer-base">
-		<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All photographs show our own completed work.</p>
+		<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?>. All rights reserved. Made by SAM.</p>
 	</div>
 </footer>
 
