@@ -267,7 +267,7 @@ function rp_ai_log( $message ) {
 /** filter name => array( slug => display name ), only options that exist on the site. */
 function rp_ai_vocabulary( $only = null ) {
 	$out = array();
-	foreach ( rp_filter_map() as $name => $taxonomy ) {
+	foreach ( rp_public_filter_map() as $name => $taxonomy ) {
 		if ( $only && ! in_array( $name, $only, true ) ) {
 			continue;
 		}
@@ -539,7 +539,7 @@ function rp_ai_assistant( WP_REST_Request $request ) {
 	}
 	$clean[] = array( 'role' => 'user', 'content' => $message );
 
-	$vocabulary = rp_ai_vocabulary( array( 'colour', 'service', 'style', 'finish' ) );
+	$vocabulary = rp_ai_vocabulary( array( 'colour', 'service', 'style' ) );
 	$properties = rp_ai_filter_schema( $vocabulary );
 	$properties['intent'] = array(
 		'type' => 'string',

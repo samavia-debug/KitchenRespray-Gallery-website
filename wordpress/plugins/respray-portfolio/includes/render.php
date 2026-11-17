@@ -27,10 +27,6 @@ function rp_project_labels( $post_id ) {
 	if ( $colour ) {
 		$labels[] = $colour->name;
 	}
-	$finish = rp_first_term( $post_id, 'finish' );
-	if ( $finish ) {
-		$labels[] = $finish->name;
-	}
 	return $labels;
 }
 
@@ -73,7 +69,7 @@ function rp_filter_form( $filters ) {
 		</div>
 		<div class="rp-filter-groups">
 			<?php
-			foreach ( rp_filter_map() as $name => $taxonomy ) :
+			foreach ( rp_public_filter_map() as $name => $taxonomy ) :
 				$terms = get_terms( array( 'taxonomy' => $taxonomy, 'hide_empty' => true ) );
 				if ( is_wp_error( $terms ) || ! $terms ) {
 					continue;
@@ -375,9 +371,12 @@ function rp_resource_card( $post_id ) {
 
 /* ---------- Homepage helpers ---------- */
 
-/** One tile per colour that has projects: name, link and a real project photo. */
+/**
+ * One tile per colour that has kitchen projects: name, link and a real photo.
+ * Kitchens only, so doors, furniture and baths do not appear under a colour.
+ */
 function rp_colour_tiles() {
-	$tiles = get_transient( 'rp_colour_tiles' );
+	$tiles = get_transient( 'rp_colour_tiles_kitchen' );
 	if ( is_array( $tiles ) ) {
 		return $tiles;
 	}
@@ -387,29 +386,41 @@ function rp_colour_tiles() {
 		if ( 'other' === $term->slug ) {
 			continue;
 		}
-		$latest = get_posts(
+		$latest = new WP_Query(
 			array(
 				'post_type'      => 'projects',
 				'post_status'    => 'publish',
 				'posts_per_page' => 1,
 				'fields'         => 'ids',
 				'meta_key'       => '_thumbnail_id',
-				'tax_query'      => array( array( 'taxonomy' => 'colour', 'field' => 'term_id', 'terms' => $term->term_id ) ),
+				'tax_query'      => array(
+					'relation' => 'AND',
+					array( 'taxonomy' => 'colour', 'field' => 'term_id', 'terms' => $term->term_id ),
+					array( 'taxonomy' => 'room', 'field' => 'slug', 'terms' => 'kitchen' ),
+				),
 			)
 		);
-		if ( ! $latest ) {
+		if ( ! $latest->posts ) {
 			continue;
 		}
-		$filters                  = rp_empty_filters();
-		$filters['tax']['colour'] = array( $term->slug );
-		$tiles[]                  = array(
+		$filters                   = rp_empty_filters();
+		$filters['tax']['colour']  = array( $term->slug );
+		$filters['tax']['service'] = array( 'kitchen' );
+		$match                     = rp_match_collection( $filters );
+		$tiles[]                   = array(
 			'name'  => $term->name,
-			'count' => (int) $term->count,
-			'url'   => rp_gallery_url( $filters ),
-			'image' => (int) get_post_thumbnail_id( $latest[0] ),
+			'count' => (int) $latest->found_posts,
+			'url'   => $match ? $match['url'] : rp_gallery_url( $filters ),
+			'image' => (int) get_post_thumbnail_id( $latest->posts[0] ),
 		);
 	}
-	set_transient( 'rp_colour_tiles', $tiles, HOUR_IN_SECONDS );
+	usort(
+		$tiles,
+		function ( $a, $b ) {
+			return $b['count'] - $a['count'];
+		}
+	);
+	set_transient( 'rp_colour_tiles_kitchen', $tiles, HOUR_IN_SECONDS );
 	return $tiles;
 }
 
@@ -492,4 +503,38 @@ function rp_related_projects( $post_id, $count = 3 ) {
 		$found = array_merge( $found, $more );
 	}
 	return $found;
+}
+
+/**
+ * Homepage sections for services other than kitchens. Each one is a gallery
+ * page (Projects > Gallery pages); a section is left out when its page is
+ * missing, unpublished or has no projects.
+ *
+ * @return array[] title, url, count, ids (up to $count project IDs)
+ */
+function rp_service_sections( $count = 3 ) {
+	$slugs    = (array) apply_filters( 'rp_service_section_slugs', array( 'pvc', 'furniture', 'baths-and-shower-trays' ) );
+	$sections = array();
+	foreach ( $slugs as $slug ) {
+		$page = get_page_by_path( $slug, OBJECT, 'rp_collection' );
+		if ( ! $page || 'publish' !== $page->post_status ) {
+			continue;
+		}
+		$filters        = rp_empty_filters();
+		$filters['tax'] = rp_collection_filters( $page->ID );
+		if ( ! $filters['tax'] ) {
+			continue;
+		}
+		$query = new WP_Query( array_merge( rp_query_args( $filters, $count ), array( 'fields' => 'ids' ) ) );
+		if ( ! $query->posts ) {
+			continue;
+		}
+		$sections[] = array(
+			'title' => get_the_title( $page ),
+			'url'   => get_permalink( $page ),
+			'count' => (int) $query->found_posts,
+			'ids'   => $query->posts,
+		);
+	}
+	return $sections;
 }

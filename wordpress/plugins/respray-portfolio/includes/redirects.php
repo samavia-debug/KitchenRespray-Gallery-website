@@ -23,8 +23,8 @@ function rp_old_collection_map() {
 			'wardrobe'     => 'wardrobes',
 			'furniture'    => 'furniture',
 			'commercial'   => 'commercial',
-			'door'         => 'doors',
-			'bathroom'     => 'bathrooms',
+			'door'         => 'pvc',
+			'bathroom'     => 'baths-and-shower-trays',
 			'yellow'       => array( 'colour' => 'yellow' ),
 			'oak'          => array( 'colour' => 'oak' ),
 			'walnut'       => array( 'colour' => 'walnut' ),
@@ -61,7 +61,10 @@ function rp_redirect_target( $path ) {
 	}
 
 	// Old category archives: /colour/black/, /finish/matt/, /room/kitchen/ ...
-	if ( preg_match( '~^(colour|finish|style|room|brand|material)/([a-z0-9-]+)$~', $path, $m ) ) {
+	if ( preg_match( '~^finish/~', $path ) ) {
+		return rp_gallery_base_url();
+	}
+	if ( preg_match( '~^(colour|style|room|brand|material)/([a-z0-9-]+)$~', $path, $m ) ) {
 		$name = 'room' === $m[1] ? 'service' : $m[1];
 		$slug = 'yelllow' === $m[2] ? 'yellow' : $m[2];
 		$filters                 = rp_empty_filters();

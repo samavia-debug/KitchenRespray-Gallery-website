@@ -353,6 +353,7 @@ function rp_refresh_project( $post_id ) {
 	}
 
 	delete_transient( 'rp_colour_tiles' );
+	delete_transient( 'rp_colour_tiles_kitchen' );
 	delete_transient( 'rp_years' );
 }
 
@@ -361,6 +362,7 @@ add_action(
 	function ( $new, $old, $post ) {
 		if ( 'projects' === $post->post_type && $new !== $old ) {
 			delete_transient( 'rp_colour_tiles' );
+			delete_transient( 'rp_colour_tiles_kitchen' );
 			delete_transient( 'rp_years' );
 		}
 	},

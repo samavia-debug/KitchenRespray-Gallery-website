@@ -2,14 +2,14 @@
 /**
  * Plugin Name: Respray Portfolio
  * Description: Project database, smart shareable galleries, videos, reviews and brochures for resprayphotos.com.
- * Version: 0.2.1
+ * Version: 0.2.2
  * Requires PHP: 7.4
  * Author: Respray Photos
  */
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RP_VERSION', '0.2.1' );
+define( 'RP_VERSION', '0.2.2' );
 define( 'RP_DIR', plugin_dir_path( __FILE__ ) );
 define( 'RP_URL', plugin_dir_url( __FILE__ ) );
 

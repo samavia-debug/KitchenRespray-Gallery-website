@@ -6,7 +6,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'RPT_VERSION', '0.2.1' );
+define( 'RPT_VERSION', '0.2.2' );
 
 add_action(
 	'after_setup_theme',

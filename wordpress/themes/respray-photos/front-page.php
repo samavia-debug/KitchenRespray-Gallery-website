@@ -48,7 +48,7 @@ $gallery_url = rp_gallery_base_url();
 	<?php if ( $tiles ) : ?>
 		<section class="rpt-section">
 			<div class="rpt-wrap">
-				<?php rpt_section_head( 'Browse', 'Explore Projects by Colour', 'All projects', $gallery_url ); ?>
+				<?php rpt_section_head( 'Kitchens', 'Explore Kitchens by Colour', 'All kitchens', home_url( '/gallery/kitchens/' ) ); ?>
 				<div class="rpt-colours">
 					<?php foreach ( array_slice( $tiles, 0, 8 ) as $tile ) : ?>
 						<a class="rpt-colour" href="<?php echo esc_url( $tile['url'] ); ?>">
@@ -61,6 +61,21 @@ $gallery_url = rp_gallery_base_url();
 			</div>
 		</section>
 	<?php endif; ?>
+
+	<?php foreach ( rp_service_sections( 3 ) as $i => $section ) : ?>
+		<section class="rpt-section<?php echo 0 === $i % 2 ? ' rpt-section-tint' : ''; ?>">
+			<div class="rpt-wrap">
+				<?php rpt_section_head( sprintf( _n( '%s project', '%s projects', $section['count'] ), number_format_i18n( $section['count'] ) ), $section['title'], 'View all', $section['url'] ); ?>
+				<div class="rp-grid">
+					<?php
+					foreach ( $section['ids'] as $project_id ) {
+						echo rp_project_card( $project_id ); // phpcs:ignore WordPress.Security.EscapeOutput
+					}
+					?>
+				</div>
+			</div>
+		</section>
+	<?php endforeach; ?>
 
 	<?php if ( $featured ) : ?>
 		<section class="rpt-section rpt-section-tint">

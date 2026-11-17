@@ -22,6 +22,19 @@ function rp_filter_map() {
 	);
 }
 
+/**
+ * Filters kept in the data but never shown to visitors or used by search.
+ * The finish (matt, gloss, satin) is hidden at the owner's request.
+ */
+function rp_hidden_filters() {
+	return (array) apply_filters( 'rp_hidden_filters', array( 'finish' ) );
+}
+
+/** The filter map without the hidden filters. */
+function rp_public_filter_map() {
+	return array_diff_key( rp_filter_map(), array_flip( rp_hidden_filters() ) );
+}
+
 function rp_filter_labels() {
 	return array(
 		'colour'   => 'Colour',
@@ -289,7 +302,7 @@ function rp_default_terms() {
 			'navy-blue'   => 'Navy Blue',
 			'green'       => 'Green',
 			'anthracite'  => 'Anthracite',
-			'walnut'      => 'Walnut',
+			'walnut'      => 'Wood Effects',
 			'oak'         => 'Oak',
 			'yellow'      => 'Yellow',
 			'other'       => 'Other Colours',
@@ -300,8 +313,8 @@ function rp_default_terms() {
 			'wardrobe'   => 'Wardrobe Respray',
 			'furniture'  => 'Furniture Respray',
 			'commercial' => 'Commercial Respray',
-			'door'       => 'Door & Window Respray',
-			'bathroom'   => 'Bathroom Respray',
+			'door'       => 'PVC, Windows & Doors',
+			'bathroom'   => 'Baths & Shower Trays',
 			'other'      => 'Other Spray Services',
 		),
 		'style'           => array(
@@ -376,10 +389,8 @@ function rp_default_collections() {
 		'wardrobes'       => array( 'Wardrobe Resprays', array( 'service' => array( 'wardrobe' ) ) ),
 		'furniture'       => array( 'Furniture Resprays', array( 'service' => array( 'furniture' ) ) ),
 		'commercial'      => array( 'Commercial Resprays', array( 'service' => array( 'commercial' ) ) ),
-		'doors'           => array( 'Door and Window Resprays', array( 'service' => array( 'door' ) ) ),
-		'bathrooms'       => array( 'Bathroom Resprays', array( 'service' => array( 'bathroom' ) ) ),
-		'matt-finishes'   => array( 'Matt Finishes', array( 'finish' => array( 'matt' ) ) ),
-		'gloss-finishes'  => array( 'Gloss Finishes', array( 'finish' => array( 'gloss' ) ) ),
+		'pvc'                    => array( 'PVC, Windows & Doors', array( 'service' => array( 'door' ) ) ),
+		'baths-and-shower-trays' => array( 'Baths & Shower Trays', array( 'service' => array( 'bathroom' ) ) ),
 	);
 }
 

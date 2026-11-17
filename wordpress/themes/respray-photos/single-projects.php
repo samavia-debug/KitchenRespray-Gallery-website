@@ -52,7 +52,6 @@ if ( $get( 'new_colour' ) ) {
 	$details['New colour'] = esc_html( $get( 'new_colour' ) );
 }
 $term_row( 'Colour', 'colour', 'colour' );
-$term_row( 'Finish', 'finish', 'finish' );
 $term_row( 'Style', 'style', 'style' );
 $term_row( 'Material', 'material', 'material' );
 $term_row( 'Paint brand', 'brand', 'brand' );
